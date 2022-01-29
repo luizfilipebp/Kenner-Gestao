@@ -1,0 +1,14 @@
+# Banco de dados usando docker 
+# <Usuario e Senha / postgres> <Porta local / 5430>
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    container_name: keenerDB
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: keenerdb
+      PGDATA: /data/postgres
+    ports:
+      - "5430:5432"

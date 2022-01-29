@@ -1,14 +1,21 @@
 import { getRepository } from "typeorm";
 import { Produto } from "../models/Produto"
 
-type ProdutoRequest = {
+type ProdutoCreateRequest = {
     name: string;
     description: string;
 };
 
+type ProdutoUpdateRequest ={
+    id: string;
+    name: string;
+    description: string;
+}
+
 
 class ProdutoService{
-    async create({name, description}: ProdutoRequest): Promise<Produto | Error>{
+    // Criar Produto
+    async create({name, description}: ProdutoCreateRequest): Promise<Produto | Error>{
         const repository = getRepository(Produto);
 
         if(await repository.findOne({name})){
@@ -23,6 +30,43 @@ class ProdutoService{
         await repository.save(product);
         return product;
     }
+
+    // Listar Produto
+    async readAll(){
+        const repository = getRepository(Produto);
+        return await repository.find();
+    }
+
+    // Atualizar Produto
+    async update({id, name, description}: ProdutoUpdateRequest){
+        const repository = getRepository(Produto);
+        const produtos = await repository.findOne(id);
+
+        if(!produtos){
+            return Error("O produto não existe!")
+        }
+
+        produtos.name = name ? name : produtos.name;
+        produtos.description = description ? description: produtos.description;
+
+        await repository.save(produtos);
+
+        return produtos;
+    }
+
+    // Deletar Produto
+    async delete(id: string){
+        const repository = getRepository(Produto);
+
+        if(!await repository.findOne(id)){
+            return new Error ("Este produto não existe")
+        }
+
+        await repository.delete(id);
+    }
+
+
+
 }
 
 export default new ProdutoService();

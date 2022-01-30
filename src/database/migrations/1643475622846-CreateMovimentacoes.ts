@@ -8,12 +8,21 @@ export class CreateMovimentacoes1643475622846 implements MigrationInterface {
                 name: "movimentacoes",
                 columns: [
                     {
+                        name:"produto_id",
+                        type: "varchar",
+                        isPrimary: true
+                    },
+                    {
                         name:"data_entrada",
-                        type: "date",
+                        type: "timestamp",
+                        isNullable: true,
+                        default: "now()"
                     },
                     {
                         name: "data_saida",
-                        type: "date",
+                        type: "timestamp",
+                        isNullable: true,
+                        default: "now()"
                     },
                 ]
             })

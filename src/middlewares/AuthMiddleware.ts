@@ -1,5 +1,6 @@
 import {Request, Response, NextFunction} from "express";
 import jwt from "jsonwebtoken";
+import { SoftDeleteQueryBuilder } from "typeorm/query-builder/SoftDeleteQueryBuilder";
 
 interface TokenPayload {
    id: string;
@@ -11,7 +12,7 @@ const authConfig = require("../config/auth");
 
 export default function authMiddleware (req:Request, res:Response, nex:NextFunction){
     const {authorization} = req.headers;
-
+    
     if(!authorization){
         return res.sendStatus(401);
     }
@@ -23,7 +24,7 @@ export default function authMiddleware (req:Request, res:Response, nex:NextFunct
         const {id} = data as TokenPayload;
 
         req.userId = id;
-        
+
         return nex();
     } catch {
         return res.sendStatus(401);

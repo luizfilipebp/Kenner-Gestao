@@ -4,6 +4,7 @@ import { Produto } from "../models/Produto"
 type ProdutoCreateRequest = {
     name: string;
     description: string;
+    usuario: string
 };
 
 type ProdutoUpdateRequest ={
@@ -15,18 +16,23 @@ type ProdutoUpdateRequest ={
 
 class ProdutoService{
     // Criar Produto
-    async create({name, description}: ProdutoCreateRequest): Promise<Produto | Error>{
+    async create({name, description, usuario}: ProdutoCreateRequest): Promise<Produto | Error>{
         const repository = getRepository(Produto);
+        
 
         if(await repository.findOne({name})){
             return new Error ("Produto já cadastrado")
         };
 
+
         const product = repository.create({
             name,
-            description,
+            description, 
+            usuario
+                     
         });
 
+        //console.log(userId);
         await repository.save(product);
         return product;
     }
@@ -64,8 +70,12 @@ class ProdutoService{
 
         await repository.delete(id);
     }
-
-
+    // encontara um
+    async findOneById(id){
+        const repository = getRepository(Produto); 
+        return repository.findOne(id)
+    
+    }
 
 }
 

@@ -1,4 +1,4 @@
-import {Request , Response } from "express";
+import {json, Request , Response } from "express";
 import ProdutoService from "../service/ProdutoService";
 
 
@@ -8,8 +8,11 @@ class ProdutoController{
         const { name, description } = req.body;
 
         const service = ProdutoService;
+        
+        var usuario = {userID: req.userId}.userID;
+              
 
-        const result = await service.create({name, description});
+        const result = await service.create({name, description, usuario});
 
         if(result instanceof Error){
             return res.status(400).json(result.message);

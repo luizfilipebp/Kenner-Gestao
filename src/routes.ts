@@ -1,6 +1,6 @@
 import { Router } from "express";
 import AuthController from "./controller/AuthController";
-import MovimentacoesController from "./controller/MovimentacoesController";
+import MovimentacoesController from "./controller/EstoqueController";
 import ProdutoController from "./controller/ProdutoController";
 import UsuarioController from "./controller/UsuarioController";
 import authMiddleware from "./middlewares/AuthMiddleware";
@@ -22,8 +22,8 @@ routes.post("/usuario", authMiddleware, UsuarioController.create);
 routes.post("/produto", authMiddleware, ProdutoController.create);
 routes.get("/produto", authMiddleware, ProdutoController.readAll)
 
-// Movimentações
-routes.post("/movimentacoes", authMiddleware, MovimentacoesController.create)
+// Estoque
+
 
 
 // Export

@@ -1,33 +1,161 @@
-# Debriefing
+# Orientações Básicas
 
-Você deverá desenvolver uma aplicação para **cadastro de produtos** e **gestão de estoque**, sendo obrigatória a implementação de um **sistema de cadastro/autenticação**, seguindo os **padrões básicos de segurança**. Observação importante: é permitida a utilização de frameworks de autenticação já existentes, como o *Identity,* no caso do .Net Core.
+​	Para utilizar a aplicação é necessário possuir o Docker e o Yarn instalado, versão utilizada:
 
-
-
-# Páginas Obrigatórias
-
-- Login
-- Cadastro
-- Cadastro de Produtos
-- Listagem de produtos
-- Cadastro de movimentações de estoque (tanto de saídas como entradas)
-- Visualização/ Listagem das movimentações realizadas 
+```
+- Docker version 20.10.12
+- Yarn version 1.22.15
+```
 
 
 
-# Orientações para elaboração
+# Inicializando o Banco de dados
 
-Você deverá desenvolver a aplicação, utilizando uma das seguintes linguagens/ frameworks para o **back-end**:
+​	Na pasta raiz da aplicação abra um CLI e utilize o seguinte comando para iniciar o container do banco PostgreSql.
 
-- Python/Django
+````
+docker-compose up
+````
 
-- C#/.Net Core
+​	Informações adicionais do banco de dados:
 
-- Javascript/Node.js
+````
+- Porta: 5430
+- usuario e senha: postgres
+````
 
-​	A aplicação deverá conter também, um **banco de dados relacional**, utilizando **Mysql,** **Sql** **Server ou PostGress** onde deverão ser armazenados os dados gerados pelo projeto.
+
+
+​	Após a inicialização do banco utilize o seguinte comando para fazer a migração das tabelas e das relações da aplicação.
+
+````
+yarn typeorm migration:run
+````
+
+​	
+
+# Inicializando a aplicação
+
+​	Com o container do banco de dados "rodando" e a migração das tabelas feita, utilize o seguinte comando para iniciar a aplicação:
+
+````
+yarn dev
+````
+
+​	A aplicação será inicializada na porta 3000.
 
 
 
-​	Você terá o prazo para concluir até o dia 31/01 às 10h, tudo bem? Contamos com você \o/
+#  Utilizando as rotas
 
+​	Para registar o primeiro usuário da aplicação deixei uma rota sem a necessidade de autenticação. Utilize a rota "/" enviando o seguinte JSON com o método post
+
+````JSON
+{
+	"name": "NOME",
+	"user_name": "USUARIO",
+	"password": "SENHA"
+}
+````
+
+​	
+
+# Login
+
+​	Para fazer a autenticação na aplicação utilize a rota "/login" utilizando o método POST com o seguinte JSON:
+
+````json
+{
+	"user_name": "USUARIO",
+	"password": "SENHA"
+}
+````
+
+​	Essa rota irá retornar um JSON informando um Token para autenticação. Para fazer a validação nas demais requisições é necessário utilizá-lo . 
+
+
+
+# Autenticação
+
+​	Após fazer o Login copie o token gerado. Para utilizar siga os passos abaixo:
+
+````
+-Insomnia : No campo "Auth" selecione "Bearer Token". No campo "TOKEN" cole o token gerado na autenticação.
+
+-Postman: No campo "Authorizarion" selecione o "Type" "Bearer Token". No campo "TOKEN"
+cole o token gerado na autenticação.
+````
+
+​	
+
+# Cadastro de Produtos
+
+​	Para cadastrar um produto é necessário um enviar uma requisição com o método POST para a rota "/produto".
+
+````json
+{
+	"name": "NOME",
+	"description": "DESCRIÇÃO"
+}
+````
+
+
+
+# Listagem de produtos
+
+​	Para listar os produtos cadastrados envie uma requisição com o método GET para a rota "/produto"
+
+
+
+# Cadastro de um estoque
+
+​	Para cadastrar um estoque é necessário um enviar uma requisição com o método POST para a rota "/estoque" com o seguinte JSON.
+
+````json
+{
+	"name": "NOME"
+}
+````
+
+
+
+
+
+# Cadastro de movimentações do estoque
+
+​	Com estoque e produto já cadastrado podemos criar as movimentações. 
+
+- Registrar a ENTRADA de um produto:
+
+  ​	Envie um método POST na rota "/estoque/entrada"com o seguinte JSON 
+
+  ````json
+  {
+  	"estoque_name": "NOMEDOESTOQUE",
+  	"produto_id": "IdDOPRODUTO"
+  }
+  ````
+
+​			Será retornado uma data de entrada o estoque em que o produto está e os dados do produto.
+
+
+
+- Registrar a SAÍDA de um produto
+
+  ​	Envie um método POST na rota "/estoque/saida"com o seguinte JSON 
+
+  ````JSON
+  {
+  	"data_entrada": "DATAdeENTRADAdoPRODUTO"
+  }
+  ````
+
+​			
+
+
+
+# Listagem das movimentações realizadas
+
+​	Para listar as movimentações realizadas envie uma requisição do tipo GET para a rota "/estoque".
+
+​	

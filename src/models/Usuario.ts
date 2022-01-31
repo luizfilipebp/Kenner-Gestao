@@ -1,6 +1,7 @@
 import {Entity, Column, PrimaryColumn, BeforeInsert, ManyToOne, OneToMany} from "typeorm";
 import bcrypt from "bcryptjs";
-import { Produto } from "./Produto";
+//import { Produto_Estoque } from "./Produto_Estoque";
+
 
 @Entity("usuarios")
 export class Usuario {
@@ -9,13 +10,9 @@ export class Usuario {
 
     @PrimaryColumn()
     user_name: string;
-
+   
     @Column()
     password:string;
-
-    // Relações
-    @OneToMany(type => Produto, usuario => Usuario)
-    produtos: Produto[];
 
     @BeforeInsert()
     hashPassword() {

@@ -16,7 +16,7 @@ type ProdutoUpdateRequest ={
 
 class ProdutoService{
     // Criar Produto
-    async create({name, description, usuario}: ProdutoCreateRequest): Promise<Produto | Error>{
+    async create({name, description}: ProdutoCreateRequest): Promise<Produto | Error>{
         const repository = getRepository(Produto);
         
 
@@ -27,12 +27,9 @@ class ProdutoService{
 
         const product = repository.create({
             name,
-            description, 
-            usuario
-                     
+            description,           
         });
 
-        //console.log(userId);
         await repository.save(product);
         return product;
     }
@@ -69,12 +66,6 @@ class ProdutoService{
         }
 
         await repository.delete(id);
-    }
-    // encontara um
-    async findOneById(id){
-        const repository = getRepository(Produto); 
-        return repository.findOne(id)
-    
     }
 
 }

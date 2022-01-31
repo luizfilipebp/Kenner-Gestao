@@ -1,6 +1,5 @@
 import {Request, Response, NextFunction} from "express";
 import jwt from "jsonwebtoken";
-import { SoftDeleteQueryBuilder } from "typeorm/query-builder/SoftDeleteQueryBuilder";
 
 interface TokenPayload {
    id: string;

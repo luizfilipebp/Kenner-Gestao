@@ -4,10 +4,10 @@ import EstoqueService from "../service/EstoqueService";
 class EstoqueController{
     // Criar Estoque
     async create(req: Request, res: Response){
-        const { nome } = req.body;
+        const { name } = req.body;
         const service = EstoqueService;              
 
-        const result = await service.create({nome});
+        const result = await service.create({estoque_name: name});
         if(result instanceof Error){
             return res.status(400).json(result.message);
         };

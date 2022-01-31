@@ -1,11 +1,11 @@
-import {Request, Response} from "express";
-import { getRepository } from "typeorm";
+import {json, Request, Response} from "express";
+import { getCustomRepository, getRepository } from "typeorm";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
 
 const authConfig = require("../config/auth");
 
-import { Usuario } from "../models/Usuario"
+import { Usuario } from "../models/Usuario";
 
 class AuthController{
     async authenticate(req: Request, res: Response){
@@ -16,8 +16,8 @@ class AuthController{
 
         if(!user){
             return res.sendStatus(401).statusMessage = 'Usuário não encontrado';
-        }
-
+        }                
+        
         const isValid = await bcrypt.compare(password, user.password);
 
         if(!isValid){
@@ -32,8 +32,6 @@ class AuthController{
             user,
             token
         })
-
-
     }
 }
 

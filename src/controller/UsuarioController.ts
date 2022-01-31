@@ -1,5 +1,4 @@
 import {Request, Response} from "express";
-import authMiddleware from "../middlewares/AuthMiddleware";
 import UsuarioService from "../service/UsuarioService";
 
 class UsuarioController{
@@ -14,9 +13,6 @@ class UsuarioController{
         if(result instanceof Error){
             return res.status(400).json(result.message);
         };
-    
-        
-
       return res.json(result);
     };
    

@@ -1,18 +1,11 @@
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryColumn } from "typeorm";
-import { v4 as uuid  } from "uuid";
+import {  Entity,  OneToMany, PrimaryColumn } from "typeorm";
+import { ProdutoEstoque } from "./ProdutoEstoque";
 
 @Entity("estoque")
 export class Estoque{
     @PrimaryColumn()
-    id: string;
+    estoque_name: string;
 
-    @Column()
-    nome: string;
-
-    // Gerar ID
-    constructor(){
-        if(!this.id){
-            this.id = uuid();
-        }
-    }
+    @OneToMany(() => ProdutoEstoque, produtoEstoque => produtoEstoque.estoque)
+    public produtoEstoque!: ProdutoEstoque[];    
 }

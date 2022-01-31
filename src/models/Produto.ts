@@ -1,5 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm"; "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryColumn } from "typeorm"; "typeorm";
 import { v4 as uuid  } from "uuid";
+import { Estoque } from "./Estoque";
+import { ProdutoEstoque } from "./ProdutoEstoque";
 
 @Entity("produtos")
 export class Produto{
@@ -7,12 +9,13 @@ export class Produto{
     id: string;
 
     @Column()
-    name: string;
+    name: string; 
 
     @Column()
     description: string;
 
-
+    @OneToMany(() => ProdutoEstoque, produtoEstoque => produtoEstoque.produto)
+    public produtoEstoque!: ProdutoEstoque[];  
 
     // Gerar ID
     constructor(){

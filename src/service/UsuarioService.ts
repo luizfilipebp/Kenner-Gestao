@@ -1,4 +1,4 @@
-import { getRepository } from "typeorm";
+import { getCustomRepository, getRepository } from "typeorm";
 import { Usuario } from "../models/Usuario";
 
 type UsuarioCreateRequest = {
@@ -15,6 +15,7 @@ type UsuarioUpdateRequest = {
 
 class UsuarioService{
     async create({name, user_name, password}: UsuarioCreateRequest): Promise<Usuario | Error>{
+
         const repository = getRepository(Usuario);
 
         if(await repository.findOne({user_name})){
@@ -28,7 +29,8 @@ class UsuarioService{
         });
 
         await repository.save(user);
-        user.password = undefined;
+
+        delete user.password;
 
         return user;
     }

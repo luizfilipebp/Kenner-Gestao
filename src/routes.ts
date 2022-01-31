@@ -38,7 +38,7 @@ routes.post("/estoque/entrada", authMiddleware, ProdutoEstoqueController.createE
 // Rota para registrar a saída de produtos em um estoque
 routes.post("/estoque/saida", authMiddleware, ProdutoEstoqueController.createExit);
 
-// Rota para visualizar as movimentações realizadas
+// Rota para visualizar as movimentações realizadas.
 routes.get("/estoque", authMiddleware, ProdutoEstoqueController.readAll);
 
 
